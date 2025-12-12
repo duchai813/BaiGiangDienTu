@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chiến Thắng Quân Thanh - Vua Quang Trung</title>
+    <title>Game Lịch Sử Việt Nam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,390 +13,1114 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Menu chính */
+        .main-menu {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .main-title {
+            font-family: 'Bangers', cursive;
+            font-size: 4em;
+            color: white;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .game-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .game-card h2 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .game-card p {
+            color: #718096;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .play-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Game screens */
+        .game-screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .game-screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .game-header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            padding: 10px 25px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c53030;
+            transform: scale(1.05);
+        }
+
+        .score-display {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        /* Game 1: Quiz */
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            background: #f7fafc;
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #edf2f7;
+            border-color: #667eea;
+            transform: translateX(10px);
+        }
+
+        .option-btn.correct {
+            background: #48bb78;
+            color: white;
+            border-color: #38a169;
+        }
+
+        .option-btn.wrong {
+            background: #f56565;
+            color: white;
+            border-color: #e53e3e;
+        }
+
+        /* Game 2: Strategy */
+        .battlefield {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 500px;
+            position: relative;
             overflow: hidden;
         }
 
-        .presentation {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .slide {
-            width: 90%;
-            max-width: 1200px;
-            height: 85vh;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 60px;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .slide.active {
-            display: flex;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        h1 {
-            color: #c41e3a;
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: #c41e3a;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #ffcd00;
-            padding-bottom: 10px;
-        }
-
-        h3 {
-            color: #2c5282;
-            font-size: 1.5em;
-            margin: 20px 0 10px 0;
-        }
-
-        p {
-            font-size: 1.2em;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .subtitle {
-            font-size: 1.5em;
-            color: #555;
-            text-align: center;
-            font-style: italic;
-        }
-
-        ul {
-            font-size: 1.2em;
-            line-height: 2;
-            color: #333;
-            margin-left: 40px;
-        }
-
-        li {
-            margin-bottom: 15px;
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, #ffcd00 0%, #ff6b6b 100%);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            color: white;
-            font-weight: bold;
-        }
-
-        .flag-banner {
-            background: linear-gradient(to right, #c41e3a, #ffcd00);
-            height: 10px;
-            width: 100%;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .navigation {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .unit {
+            position: absolute;
+            font-size: 2em;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            user-select: none;
         }
 
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        .unit:hover {
+            transform: scale(1.2);
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .unit.friendly {
+            filter: hue-rotate(200deg);
         }
 
-        .slide-counter {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: rgba(255,255,255,0.9);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .unit.enemy {
+            filter: hue-rotate(0deg);
         }
 
-        .timeline {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #ffcd00;
-        }
-
-        .timeline-item {
+        /* Game 3: Timeline */
+        .timeline-game {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 3px solid #c41e3a;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            flex: 1;
-            margin: 0 10px;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .stat-box {
+        .event-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             border-radius: 15px;
-            text-align: center;
+            margin: 10px 0;
+            cursor: move;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
 
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            display: block;
+        .event-card:hover {
+            transform: scale(1.05);
         }
 
-        .quote {
-            font-style: italic;
-            font-size: 1.3em;
-            text-align: center;
-            color: #2c5282;
-            padding: 30px;
-            background: #f7fafc;
-            border-left: 5px solid #c41e3a;
+        .event-card.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            border: 3px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 100px;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background: #edf2f7;
+            border-color: #667eea;
+        }
+
+        /* Game 4: Memory */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            color: #2d3748;
+            border: 3px solid #667eea;
+        }
+
+        .memory-card.matched {
+            background: #48bb78;
+            color: white;
+        }
+
+        /* Game 5: Millionaire */
+        .millionaire-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .prize-ladder {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .prize-item {
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .prize-item.current {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .prize-item.completed {
+            background: #48bb78;
+            color: white;
+        }
+
+        .lifelines {
+            display: flex;
+            gap: 10px;
             margin: 20px 0;
+            justify-content: center;
+        }
+
+        .lifeline-btn {
+            padding: 10px 20px;
+            background: #ed8936;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lifeline-btn:hover:not(:disabled) {
+            background: #dd6b20;
+            transform: scale(1.05);
+        }
+
+        .lifeline-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-screen {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        .result-screen h2 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 4em;
+            color: #667eea;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .timer {
+            font-size: 2em;
+            font-weight: 700;
+            color: #e53e3e;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
-    <div class="presentation">
-        <div class="slide-counter">
-            <span id="current">1</span> / <span id="total">7</span>
-        </div>
-
-        <!-- Slide 1: Trang bìa -->
-        <div class="slide active">
-            <h1>🇻🇳 CHIẾN THẮNG QUÂN THANH 🇻🇳</h1>
-            <div class="flag-banner"></div>
-            <p class="subtitle">Chiến công vang dội của Vua Quang Trung - Nguyễn Huệ</p>
-            <p class="subtitle" style="margin-top: 20px;">Xuân Kỷ Dậu 1789 (Tết Nguyên Đán)</p>
-            <div class="flag-banner"></div>
-        </div>
-
-        <!-- Slide 2: Bối cảnh lịch sử -->
-        <div class="slide">
-            <h2>📜 Bối Cảnh Lịch Sử</h2>
-            <h3>Tình hình Việt Nam cuối thế kỷ XVIII:</h3>
-            <ul>
-                <li><strong>Nhà Lê suy yếu:</strong> Chúa Trịnh cai trị miền Bắc, chúa Nguyễn cai trị miền Nam</li>
-                <li><strong>Phong trào Tây Sơn:</strong> Nguyễn Nhạc, Nguyễn Huệ, Nguyễn Lữ khởi nghĩa 1771</li>
-                <li><strong>1788:</strong> Nguyễn Huệ đánh bại chúa Trịnh, thống nhất miền Bắc</li>
-                <li><strong>Lê Chiêu Thống:</strong> Vua chạy sang Thanh cầu cứu</li>
-            </ul>
-            <div class="highlight">
-                ⚠️ Quân Thanh kéo vào Việt Nam với 29 vạn quân, chiếm Thăng Long (Hà Nội)
-            </div>
-        </div>
-
-        <!-- Slide 3: Chuẩn bị chiến đấu -->
-        <div class="slide">
-            <h2>⚔️ Chuẩn Bị Chiến Đấu</h2>
-            <h3>Quyết định của Nguyễn Huệ:</h3>
-            <ul>
-                <li><strong>Tháng 12/1788:</strong> Lên ngôi hoàng đế, lấy hiệu Quang Trung</li>
-                <li><strong>Chiến lược:</strong> Đánh nhanh, đánh mạnh, đánh bất ngờ</li>
-                <li><strong>Thời điểm:</strong> Chọn dịp Tết Nguyên Đán - địch mất cảnh giác</li>
-                <li><strong>Tập hợp quân:</strong> 10 vạn tinh binh từ Phú Xuân kéo ra Bắc</li>
-            </ul>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <strong>Tháng 12/1788</strong><br>Lên ngôi
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="main-menu">
+            <h1 class="main-title">🇻🇳 GAME LỊCH SỬ VIỆT NAM 🇻🇳</h1>
+            <div class="game-grid">
+                <div class="game-card" onclick="startGame('quiz')">
+                    <div class="game-icon">📚</div>
+                    <h2>Quiz Lịch Sử</h2>
+                    <p>Trả lời câu hỏi trắc nghiệm về lịch sử Việt Nam. Bao nhiêu câu bạn trả lời đúng?</p>
+                    <button class="play-btn">Chơi Ngay</button>
                 </div>
-                <div class="timeline-item">
-                    <strong>25/12/1788</strong><br>Xuất quân
+
+                <div class="game-card" onclick="startGame('strategy')">
+                    <div class="game-icon">⚔️</div>
+                    <h2>Trận Ngọc Hồi</h2>
+                    <p>Chỉ huy quân Tây Sơn đánh úp quân Thanh trong đêm giao thừa!</p>
+                    <button class="play-btn">Chơi Ngay</button>
                 </div>
-                <div class="timeline-item">
-                    <strong>30/Tết 1789</strong><br>Đại thắng
+
+                <div class="game-card" onclick="startGame('timeline')">
+                    <div class="game-icon">⏰</div>
+                    <h2>Timeline Challenge</h2>
+                    <p>Sắp xếp các sự kiện lịch sử theo đúng thứ tự thời gian!</p>
+                    <button class="play-btn">Chơi Ngay</button>
+                </div>
+
+                <div class="game-card" onclick="startGame('memory')">
+                    <div class="game-icon">🧠</div>
+                    <h2>Ghép Đôi Anh Hùng</h2>
+                    <p>Tìm các cặp anh hùng và chiến công trong lịch sử Việt Nam!</p>
+                    <button class="play-btn">Chơi Ngay</button>
+                </div>
+
+                <div class="game-card" onclick="startGame('millionaire')">
+                    <div class="game-icon">💰</div>
+                    <h2>Ai Là Triệu Phú</h2>
+                    <p>15 câu hỏi lịch sử từ dễ đến khó. Bạn có thể chinh phục?</p>
+                    <button class="play-btn">Chơi Ngay</button>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: Diễn biến trận đánh -->
-        <div class="slide">
-            <h2>⚡ Diễn Biến Trận Đánh</h2>
-            <h3>Hành quân thần tốc:</h3>
-            <ul>
-                <li><strong>25/12/1788:</strong> Xuất quân từ Phú Xuân (Huế)</li>
-                <li><strong>Hành trình:</strong> 7 ngày 7 đêm vượt 500 km</li>
-                <li><strong>Đêm 29 Tết:</strong> Đến ngoại ô Thăng Long</li>
-            </ul>
-            <h3>Tấn công đêm giao thừa:</h3>
-            <ul>
-                <li><strong>Đêm 30 Tết (Giao thừa):</strong> Quân Tây Sơn chia 3 đường tấn công</li>
-                <li><strong>Chiến thuật:</strong> Đánh úp, tấn công đồng loạt, dùng voi và hỏa khí</li>
-                <li><strong>Kết quả:</strong> Quân Thanh hoảng loạn, thua tan tác</li>
-            </ul>
+        <!-- Game 1: Quiz -->
+        <div id="quizGame" class="game-screen">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Về Menu</button>
+                <div class="score-display">Điểm: <span id="quizScore">0</span></div>
+                <div class="timer">⏱️ <span id="quizTimer">30</span>s</div>
+            </div>
+            <div class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quizProgress" style="width: 0%"></div>
+                </div>
+                <div class="question" id="quizQuestion"></div>
+                <div class="options" id="quizOptions"></div>
+            </div>
         </div>
 
-        <!-- Slide 5: Kết quả chiến thắng -->
-        <div class="slide">
-            <h2>🏆 Kết Quả Chiến Thắng</h2>
-            <div class="stats">
-                <div class="stat-box">
-                    <span class="stat-number">5 ngày</span>
-                    <div>Thời gian chiến đấu</div>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-number">29 vạn</span>
-                    <div>Quân Thanh bị đánh tan</div>
+        <!-- Game 2: Strategy -->
+        <div id="strategyGame" class="game-screen">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Về Menu</button>
+                <div class="score-display">
+                    Quân TA: <span id="friendlyCount">10</span> | 
+                    Quân ĐỊCH: <span id="enemyCount">15</span>
                 </div>
             </div>
-            <h3>Thành tựu:</h3>
-            <ul>
-                <li>Giải phóng hoàn toàn Thăng Long và các tỉnh phía Bắc</li>
-                <li>Quân Thanh bỏ chạy về nước, bỏ lại vũ khí lương thực</li>
-                <li>Nhà Thanh phải công nhận độc lập của Việt Nam</li>
-                <li>Lê Chiêu Thống bị bắt, triều Lê chấm dứt</li>
-            </ul>
+            <div class="quiz-container" style="text-align: center; margin-bottom: 20px;">
+                <h2>🎯 Nhiệm Vụ: Tiêu Diệt Quân Thanh!</h2>
+                <p style="font-size: 1.1em; color: #718096;">Click vào quân xanh (TA) rồi click vào quân đỏ (ĐỊCH) để tấn công!</p>
+            </div>
+            <div class="battlefield" id="battlefield"></div>
         </div>
 
-        <!-- Slide 6: Ý nghĩa lịch sử -->
-        <div class="slide">
-            <h2>🌟 Ý Nghĩa Lịch Sử</h2>
-            <h3>Về quân sự:</h3>
-            <ul>
-                <li>Một trong những chiến thắng vĩ đại nhất lịch sử dân tộc</li>
-                <li>Điển hình về chiến thuật đánh nhanh, đánh bất ngờ</li>
-                <li>Kẻ yếu thắng kẻ mạnh nhờ trí tuệ và dũng cảm</li>
-            </ul>
-            <h3>Về chính trị:</h3>
-            <ul>
-                <li>Bảo vệ độc lập, chủ quyền dân tộc</li>
-                <li>Khẳng định tinh thần tự cường của người Việt</li>
-                <li>Tạo nền tảng cho sự thống nhất đất nước</li>
-            </ul>
-            <div class="quote">
-                "Vua Quang Trung - Nguyễn Huệ là một trong những vị anh hùng vĩ đại nhất trong lịch sử dân tộc Việt Nam"
+        <!-- Game 3: Timeline -->
+        <div id="timelineGame" class="game-screen">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Về Menu</button>
+                <div class="score-display">Điểm: <span id="timelineScore">0</span></div>
+            </div>
+            <div class="timeline-game">
+                <h2 style="text-align: center; color: #2d3748; margin-bottom: 30px;">
+                    Kéo thả các sự kiện theo thứ tự thời gian (cũ → mới)
+                </h2>
+                <div id="timelineEvents" style="margin-bottom: 30px;"></div>
+                <div id="timelineDropZones"></div>
+                <button class="play-btn" onclick="checkTimeline()" style="display: block; margin: 30px auto;">
+                    ✅ Kiểm Tra Đáp Án
+                </button>
             </div>
         </div>
 
-        <!-- Slide 7: Kết luận -->
-        <div class="slide">
-            <h2>📚 Kết Luận</h2>
-            <div class="highlight">
-                Chiến thắng Ngọc Hồi - Đống Đa (Xuân Kỷ Dậu 1789) là minh chứng sáng ngời cho tinh thần bất khuất, ý chí tự cường của dân tộc Việt Nam.
+        <!-- Game 4: Memory -->
+        <div id="memoryGame" class="game-screen">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Về Menu</button>
+                <div class="score-display">
+                    Lượt: <span id="memoryMoves">0</span> | 
+                    Đúng: <span id="memoryMatched">0</span>/8
+                </div>
             </div>
-            <h3>Bài học rút ra:</h3>
-            <ul>
-                <li>Đoàn kết dân tộc là sức mạnh vô địch</li>
-                <li>Chiến lược, chiến thuật thông minh có thể thắng kẻ mạnh</li>
-                <li>Tinh thần yêu nước, quyết tâm bảo vệ Tổ quốc</li>
-                <li>Lãnh đạo tài ba, gan dạ là yếu tố quyết định</li>
-            </ul>
-            <div class="flag-banner"></div>
-            <p style="text-align: center; margin-top: 30px; font-size: 1.4em; font-weight: bold; color: #c41e3a;">
-                🇻🇳 CHIẾN THẮNG BẤT DIỆT - QUANG TRUNG VẠN TUẾ! 🇻🇳
-            </p>
+            <div class="quiz-container">
+                <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">
+                    Tìm các cặp anh hùng giống nhau!
+                </h2>
+                <div class="memory-grid" id="memoryGrid"></div>
+            </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="navigation">
-            <button id="prevBtn" onclick="changeSlide(-1)">← Trước</button>
-            <button id="nextBtn" onclick="changeSlide(1)">Tiếp →</button>
+        <!-- Game 5: Millionaire -->
+        <div id="millionaireGame" class="game-screen">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Về Menu</button>
+                <div class="score-display">Câu: <span id="millionaireLevel">1</span>/15</div>
+            </div>
+            <div class="millionaire-container">
+                <div class="prize-ladder" id="prizeLadder"></div>
+                <div class="quiz-container">
+                    <div class="lifelines">
+                        <button class="lifeline-btn" id="fiftyFifty" onclick="useFiftyFifty()">
+                            50:50
+                        </button>
+                        <button class="lifeline-btn" id="askAudience" onclick="askAudience()">
+                            👥 Hỏi khán giả
+                        </button>
+                    </div>
+                    <div class="question" id="millionaireQuestion"></div>
+                    <div class="options" id="millionaireOptions"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
+        let currentGame = null;
+        let gameState = {};
 
-        document.getElementById('total').textContent = totalSlides;
+        // Quiz data
+        const quizQuestions = [
+            {
+                question: "Vua Quang Trung đánh tan quân Thanh vào năm nào?",
+                options: ["1785", "1789", "1802", "1858"],
+                correct: 1
+            },
+            {
+                question: "Ai là người sáng lập triều Nguyễn?",
+                options: ["Nguyễn Huệ", "Gia Long", "Minh Mạng", "Tự Đức"],
+                correct: 1
+            },
+            {
+                question: "Bà Trưng Trắc và Trưng Nhị khởi nghĩa chống ai?",
+                options: ["Nhà Thanh", "Nhà Tống", "Nhà Hán", "Nhà Minh"],
+                correct: 2
+            },
+            {
+                question: "Trận Bạch Đằng năm 938 do ai chỉ huy?",
+                options: ["Lý Thường Kiệt", "Ngô Quyền", "Lê Lợi", "Trần Hưng Đạo"],
+                correct: 1
+            },
+            {
+                question: "Thủ đô đầu tiên của nước Việt Nam độc lập là?",
+                options: ["Hoa Lư", "Thăng Long", "Phú Xuân", "Gia Định"],
+                correct: 0
+            },
+            {
+                question: "Trận Điện Biên Phủ kết thúc năm nào?",
+                options: ["1945", "1954", "1975", "1969"],
+                correct: 1
+            },
+            {
+                question: "Ai được gọi là 'Hùm Xám'?",
+                options: ["Võ Nguyên Giáp", "Trần Hưng Đạo", "Hoàng Hoa Thám", "Nguyễn Trãi"],
+                correct: 2
+            },
+            {
+                question: "Cuộc kháng chiến chống Mỹ kéo dài bao nhiêu năm?",
+                options: ["9 năm", "15 năm", "21 năm", "30 năm"],
+                correct: 2
+            },
+            {
+                question: "Kinh đô triều Nguyễn đặt ở đâu?",
+                options: ["Hà Nội", "Huế", "Sài Gòn", "Đà Nẵng"],
+                correct: 1
+            },
+            {
+                question: "Chủ tịch Hồ Chí Minh sinh năm nào?",
+                options: ["1890", "1900", "1920", "1911"],
+                correct: 0
+            }
+        ];
 
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            
-            if (n >= totalSlides) currentSlide = totalSlides - 1;
-            if (n < 0) currentSlide = 0;
-            
-            slides[currentSlide].classList.add('active');
-            
-            document.getElementById('current').textContent = currentSlide + 1;
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        // Timeline data
+        const timelineEvents = [
+            { text: "Khởi nghĩa Hai Bà Trưng", year: 40, id: 1 },
+            { text: "Trận Bạch Đằng - Ngô Quyền", year: 938, id: 2 },
+            { text: "Trận Bạch Đằng - Trần Hưng Đạo", year: 1288, id: 3 },
+            { text: "Khởi nghĩa Lam Sơn", year: 1418, id: 4 },
+            { text: "Chiến thắng Ngọc Hồi - Đống Đa", year: 1789, id: 5 }
+        ];
+
+        // Memory game data
+        const memoryCards = [
+            "🗡️", "🗡️", "🏹", "🏹", "⚔️", "⚔️", "🛡️", "🛡️",
+            "🐉", "🐉", "👑", "👑", "🏰", "🏰", "⚡", "⚡"
+        ];
+
+        // Millionaire questions
+        const millionaireQuestions = [
+            {
+                question: "Quốc hiệu Việt Nam được đặt vào năm nào?",
+                options: ["1802", "1945", "1975", "1954"],
+                correct: 1,
+                prize: "200.000"
+            },
+            {
+                question: "Ai là danh tướng đánh tan quân Mông Cổ 3 lần?",
+                options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Lợi", "Nguyễn Huệ"],
+                correct: 1,
+                prize: "400.000"
+            },
+            {
+                question: "Thành Cổ Loa được xây dựng dưới thời vua nào?",
+                options: ["An Dương Vương", "Đinh Tiên Hoàng", "Lý Thái Tổ", "Hùng Vương"],
+                correct: 0,
+                prize: "600.000"
+            },
+            {
+                question: "Bình Ngô Đại Cáo do ai soạn?",
+                options: ["Nguyễn Trãi", "Chu Văn An", "Lê Quý Đôn", "Nguyễn Du"],
+                correct: 0,
+                prize: "1.000.000"
+            },
+            {
+                question: "Triều đại nào trị vì Việt Nam lâu nhất?",
+                options: ["Lý", "Trần", "Lê", "Nguyễn"],
+                correct: 2,
+                prize: "2.000.000"
+            }
+        ];
+
+        function startGame(game) {
+            currentGame = game;
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById(game + 'Game').classList.add('active');
+
+            switch(game) {
+                case 'quiz': initQuiz(); break;
+                case 'strategy': initStrategy(); break;
+                case 'timeline': initTimeline(); break;
+                case 'memory': initMemory(); break;
+                case 'millionaire': initMillionaire(); break;
+            }
         }
 
-        function changeSlide(direction) {
-            currentSlide += direction;
-            showSlide(currentSlide);
+        function backToMenu() {
+            document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('mainMenu').style.display = 'block';
+            if (gameState.timer) clearInterval(gameState.timer);
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-        });
+        // QUIZ GAME
+        function initQuiz() {
+            gameState = {
+                score: 0,
+                currentQ: 0,
+                timeLeft: 30,
+                questions: [...quizQuestions].sort(() => Math.random() - 0.5)
+            };
+            showQuizQuestion();
+            startQuizTimer();
+        }
 
-        showSlide(currentSlide);
+        function showQuizQuestion() {
+            if (gameState.currentQ >= gameState.questions.length) {
+                showResult('quiz', gameState.score, gameState.questions.length);
+                return;
+            }
+
+            const q = gameState.questions[gameState.currentQ];
+            document.getElementById('quizQuestion').textContent = 
+                `Câu ${gameState.currentQ + 1}: ${q.question}`;
+            
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkQuizAnswer(i);
+                optionsDiv.appendChild(btn);
+            });
+
+            const progress = ((gameState.currentQ + 1) / gameState.questions.length) * 100;
+            document.getElementById('quizProgress').style.width = progress + '%';
+        }
+
+        function checkQuizAnswer(selected) {
+            const q = gameState.questions[gameState.currentQ];
+            const btns = document.querySelectorAll('#quizOptions .option-btn');
+            
+            btns.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                btns[selected].classList.add('correct');
+                gameState.score++;
+                document.getElementById('quizScore').textContent = gameState.score;
+            } else {
+                btns[selected].classList.add('wrong');
+                btns[q.correct].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                gameState.currentQ++;
+                gameState.timeLeft = 30;
+                showQuizQuestion();
+            }, 1500);
+        }
+
+        function startQuizTimer() {
+            gameState.timer = setInterval(() => {
+                gameState.timeLeft--;
+                document.getElementById('quizTimer').textContent = gameState.timeLeft;
+                
+                if (gameState.timeLeft <= 0) {
+                    checkQuizAnswer(-1);
+                }
+            }, 1000);
+        }
+
+        // STRATEGY GAME
+        function initStrategy() {
+            gameState = {
+                friendlyUnits: [],
+                enemyUnits: [],
+                selectedUnit: null
+            };
+
+            const battlefield = document.getElementById('battlefield');
+            battlefield.innerHTML = '';
+
+            // Create friendly units (blue)
+            for (let i = 0; i < 10; i++) {
+                const unit = createUnit('🛡️', 'friendly', 
+                    Math.random() * 80 + 10, 
+                    Math.random() * 30 + 60);
+                gameState.friendlyUnits.push(unit);
+                battlefield.appendChild(unit);
+            }
+
+            // Create enemy units (red)
+            for (let i = 0; i < 15; i++) {
+                const unit = createUnit('⚔️', 'enemy', 
+                    Math.random() * 80 + 10, 
+                    Math.random() * 40 + 10);
+                gameState.enemyUnits.push(unit);
+                battlefield.appendChild(unit);
+            }
+
+            updateStrategyCounts();
+        }
+
+        function createUnit(emoji, type, left, top) {
+            const unit = document.createElement('div');
+            unit.className = `unit ${type}`;
+            unit.textContent = emoji;
+            unit.style.left = left + '%';
+            unit.style.top = top + '%';
+            
+            unit.onclick = () => {
+                if (type === 'friendly') {
+                    if (gameState.selectedUnit) {
+                        gameState.selectedUnit.style.transform = 'scale(1)';
+                    }
+                    gameState.selectedUnit = unit;
+                    unit.style.transform = 'scale(1.3)';
+                } else if (type === 'enemy' && gameState.selectedUnit) {
+                    // Attack!
+                    unit.style.animation = 'none';
+                    setTimeout(() => {
+                        unit.remove();
+                        gameState.enemyUnits = gameState.enemyUnits.filter(u => u !== unit);
+                        updateStrategyCounts();
+                        
+                        if (gameState.enemyUnits.length === 0) {
+                            showResult('strategy', gameState.friendlyUnits.length, 15);
+                        }
+                    }, 100);
+                }
+            };
+            
+            return unit;
+        }
+
+        function updateStrategyCounts() {
+            document.getElementById('friendlyCount').textContent = gameState.friendlyUnits.length;
+            document.getElementById('enemyCount').textContent = gameState.enemyUnits.length;
+        }
+
+        // TIMELINE GAME
+        function initTimeline() {
+            gameState = {
+                events: [...timelineEvents].sort(() => Math.random() - 0.5),
+                placed: []
+            };
+
+            const eventsDiv = document.getElementById('timelineEvents');
+            const zonesDiv = document.getElementById('timelineDropZones');
+            
+            eventsDiv.innerHTML = '';
+            zonesDiv.innerHTML = '';
+
+            gameState.events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                card.textContent = event.text;
+                card.draggable = true;
+                card.dataset.id = event.id;
+                
+                card.ondragstart = (e) => {
+                    e.dataTransfer.setData('text/plain', event.id);
+                    card.classList.add('dragging');
+                };
+                
+                card.ondragend = () => {
+                    card.classList.remove('dragging');
+                };
+                
+                eventsDiv.appendChild(card);
+            });
+
+            for (let i = 0; i < timelineEvents.length; i++) {
+                const zone = document.createElement('div');
+                zone.className = 'drop-zone';
+                zone.textContent = `Vị trí ${i + 1}`;
+                zone.dataset.position = i;
+                
+                zone.ondragover = (e) => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                };
+                
+                zone.ondragleave = () => {
+                    zone.classList.remove('drag-over');
+                };
+                
+                zone.ondrop = (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    
+                    const id = parseInt(e.dataTransfer.getData('text/plain'));
+                    const card = document.querySelector(`[data-id="${id}"]`);
+                    
+                    if (zone.children.length === 0) {
+                        zone.appendChild(card);
+                    }
+                };
+                
+                zonesDiv.appendChild(zone);
+            }
+        }
+
+        function checkTimeline() {
+            const zones = document.querySelectorAll('.drop-zone');
+            const sortedEvents = [...timelineEvents].sort((a, b) => a.year - b.year);
+            let correct = 0;
+
+            zones.forEach((zone, i) => {
+                const card = zone.querySelector('.event-card');
+                if (card) {
+                    const id = parseInt(card.dataset.id);
+                    if (id === sortedEvents[i].id) {
+                        card.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+                        correct++;
+                    } else {
+                        card.style.background = 'linear-gradient(135deg, #f56565 0%, #e53e3e 100%)';
+                    }
+                }
+            });
+
+            document.getElementById('timelineScore').textContent = correct;
+            
+            setTimeout(() => {
+                if (correct === timelineEvents.length) {
+                    showResult('timeline', correct, timelineEvents.length);
+                }
+            }, 2000);
+        }
+
+        // MEMORY GAME
+        function initMemory() {
+            gameState = {
+                cards: [...memoryCards].sort(() => Math.random() - 0.5),
+                flipped: [],
+                matched: 0,
+                moves: 0
+            };
+
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+
+            gameState.cards.forEach((card, i) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'memory-card';
+                cardDiv.textContent = '?';
+                cardDiv.dataset.index = i;
+                cardDiv.dataset.value = card;
+                
+                cardDiv.onclick = () => flipCard(cardDiv);
+                
+                grid.appendChild(cardDiv);
+            });
+        }
+
+        function flipCard(card) {
+            if (gameState.flipped.length >= 2 || card.classList.contains('flipped')) return;
+
+            card.classList.add('flipped');
+            card.textContent = card.dataset.value;
+            gameState.flipped.push(card);
+
+            if (gameState.flipped.length === 2) {
+                gameState.moves++;
+                document.getElementById('memoryMoves').textContent = gameState.moves;
+
+                const [card1, card2] = gameState.flipped;
+                
+                if (card1.dataset.value === card2.dataset.value) {
+                    setTimeout(() => {
+                        card1.classList.add('matched');
+                        card2.classList.add('matched');
+                        gameState.matched++;
+                        document.getElementById('memoryMatched').textContent = gameState.matched;
+                        gameState.flipped = [];
+
+                        if (gameState.matched === memoryCards.length / 2) {
+                            showResult('memory', gameState.moves, memoryCards.length / 2);
+                        }
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        card1.textContent = '?';
+                        card2.textContent = '?';
+                        gameState.flipped = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        // MILLIONAIRE GAME
+        function initMillionaire() {
+            gameState = {
+                level: 0,
+                lifelines: { fiftyFifty: true, audience: true }
+            };
+
+            const ladder = document.getElementById('prizeLadder');
+            ladder.innerHTML = '';
+            
+            for (let i = millionaireQuestions.length - 1; i >= 0; i--) {
+                const item = document.createElement('div');
+                item.className = 'prize-item';
+                if (i === 0) item.classList.add('current');
+                item.innerHTML = `<span>Câu ${i + 1}</span><span>${millionaireQuestions[i].prize}đ</span>`;
+                item.dataset.level = i;
+                ladder.appendChild(item);
+            }
+
+            showMillionaireQuestion();
+        }
+
+        function showMillionaireQuestion() {
+            if (gameState.level >= millionaireQuestions.length) {
+                showResult('millionaire', gameState.level, millionaireQuestions.length);
+                return;
+            }
+
+            const q = millionaireQuestions[gameState.level];
+            document.getElementById('millionaireLevel').textContent = gameState.level + 1;
+            document.getElementById('millionaireQuestion').textContent = q.question;
+            
+            const optionsDiv = document.getElementById('millionaireOptions');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = String.fromCharCode(65 + i) + ': ' + opt;
+                btn.dataset.index = i;
+                btn.onclick = () => checkMillionaireAnswer(i);
+                optionsDiv.appendChild(btn);
+            });
+
+            document.querySelectorAll('.prize-item').forEach(item => {
+                item.classList.remove('current', 'completed');
+            });
+            document.querySelector(`[data-level="${gameState.level}"]`).classList.add('current');
+        }
+
+        function checkMillionaireAnswer(selected) {
+            const q = millionaireQuestions[gameState.level];
+            const btns = document.querySelectorAll('#millionaireOptions .option-btn');
+            
+            btns.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                btns[selected].classList.add('correct');
+                document.querySelector(`[data-level="${gameState.level}"]`).classList.add('completed');
+                
+                setTimeout(() => {
+                    gameState.level++;
+                    showMillionaireQuestion();
+                }, 1500);
+            } else {
+                btns[selected].classList.add('wrong');
+                btns[q.correct].classList.add('correct');
+                
+                setTimeout(() => {
+                    showResult('millionaire', gameState.level, millionaireQuestions.length);
+                }, 2000);
+            }
+        }
+
+        function useFiftyFifty() {
+            if (!gameState.lifelines.fiftyFifty) return;
+            
+            const q = millionaireQuestions[gameState.level];
+            const btns = document.querySelectorAll('#millionaireOptions .option-btn');
+            let removed = 0;
+            
+            btns.forEach((btn, i) => {
+                if (i !== q.correct && removed < 2) {
+                    btn.style.display = 'none';
+                    removed++;
+                }
+            });
+            
+            gameState.lifelines.fiftyFifty = false;
+            document.getElementById('fiftyFifty').disabled = true;
+        }
+
+        function askAudience() {
+            if (!gameState.lifelines.audience) return;
+            
+            const q = millionaireQuestions[gameState.level];
+            const results = [0, 0, 0, 0];
+            results[q.correct] = 60 + Math.random() * 30;
+            
+            let remaining = 100 - results[q.correct];
+            for (let i = 0; i < 4; i++) {
+                if (i !== q.correct) {
+                    results[i] = Math.random() * remaining;
+                    remaining -= results[i];
+                }
+            }
+            
+            alert('Khán giả bình chọn:\n' + 
+                q.options.map((opt, i) => 
+                    `${String.fromCharCode(65 + i)}: ${Math.round(results[i])}%`
+                ).join('\n'));
+            
+            gameState.lifelines.audience = false;
+            document.getElementById('askAudience').disabled = true;
+        }
+
+        function showResult(game, score, total) {
+            const gameDiv = document.getElementById(game + 'Game');
+            gameDiv.innerHTML = `
+                <div class="result-screen">
+                    <h2>🎉 Hoàn Thành! 🎉</h2>
+                    <div class="result-score">${score}/${total}</div>
+                    <p style="font-size: 1.3em; color: #718096;">
+                        ${score === total ? 'Xuất sắc! Bạn là bậc thầy lịch sử!' :
+                          score >= total * 0.7 ? 'Rất tốt! Tiếp tục phát huy!' :
+                          'Cố gắng lên! Hãy thử lại!'}
+                    </p>
+                    <button class="restart-btn" onclick="startGame('${game}')">
+                        🔄 Chơi Lại
+                    </button>
+                    <button class="restart-btn" onclick="backToMenu()">
+                        🏠 Về Menu
+                    </button>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
